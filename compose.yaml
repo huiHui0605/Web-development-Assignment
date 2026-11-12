@@ -1,0 +1,29 @@
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    environment:
+      MARIADB_ROOT_PASSWORD: local-root-only
+      MARIADB_DATABASE: volunteer_db
+      MARIADB_USER: volunteer
+      MARIADB_PASSWORD: local-volunteer-only
+    volumes:
+      - volunteer-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  web:
+    build: .
+    ports: ["127.0.0.1:8080:80"]
+    environment:
+      DB_HOST: db
+      DB_USER: volunteer
+      DB_PASSWORD: local-volunteer-only
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  volunteer-data:

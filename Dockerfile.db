@@ -1,0 +1,2 @@
+FROM mariadb:11.4
+COPY --chmod=644 VolunteerSystem/database.sql /docker-entrypoint-initdb.d/database.sql
