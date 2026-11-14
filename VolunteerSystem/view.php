@@ -42,8 +42,8 @@ render_header("Volunteer directory");
     unset($_SESSION["notice"]);
 endif;
 ?>
-<div class="panel p-0 overflow-hidden">
-    <div class="d-flex justify-content-between p-4 border-bottom">
+<div class="panel directory-panel p-0 overflow-hidden">
+    <div class="d-flex flex-wrap gap-2 justify-content-between p-4 border-bottom">
         <strong>
             <?= number_format($totalVolunteers) ?> registrations
         </strong>
@@ -51,7 +51,18 @@ endif;
             Latest registration first · <?= PAGE_SIZE ?> per page
         </span>
     </div>
-    <div class="table-responsive">
+    <?php if (!$volunteers): ?>
+        <!-- Keep the empty state outside the wide, horizontally scrolling table. -->
+        <div class="text-center px-4 py-5">
+            <h2 class="h4">A community starts with one person.</h2>
+            <p class="text-secondary">No volunteers registered yet.</p>
+            <a href="index.php" class="btn btn-primary">Add the first volunteer</a>
+        </div>
+    <?php else: ?>
+    <p class="small text-secondary px-4 pt-3 mb-2 d-md-none" id="directory-scroll-help">
+        Swipe the table sideways to see all details and actions.
+    </p>
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Volunteer registrations">
         <table class="table align-middle mb-0">
             <caption class="px-4">
                 Volunteer directory — page <?= $currentPage ?> of <?= $totalPages ?>
@@ -86,30 +97,16 @@ endif;
                     </td>
                 </tr>
                 <?php endforeach; ?>
-                <?php if (!$volunteers): ?>
-                <tr>
-                    <td colspan="8" class="text-center py-5">
-                        <h2 class="h4">
-                            A community starts with one person.
-                        </h2>
-                        <p class="text-secondary">
-                            No volunteers registered yet.
-                        </p>
-                        <a href="index.php" class="btn btn-primary">
-                            Add the first volunteer
-                        </a>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </tbody>
         </table>
     </div>
-    <div class="p-4 d-flex flex-wrap gap-3 justify-content-between align-items-center">
+    <?php endif; ?>
+    <div class="p-4 d-flex flex-wrap gap-3 justify-content-between align-items-center border-top">
         <span class="small text-secondary">
             Showing <?= $totalVolunteers ? $offset + 1 : 0 ?>–<?= min($offset + PAGE_SIZE, $totalVolunteers) ?> of <?= $totalVolunteers ?>
         </span>
         <nav aria-label="Volunteer pages">
-            <ul class="pagination mb-0">
+            <ul class="pagination flex-wrap mb-0">
                 <li class="page-item <?= $currentPage === 1 ? "disabled" : "" ?>">
                     <a class="page-link" href="?page=<?= max(1, $currentPage - 1) ?>" <?= $currentPage === 1 ? 'aria-disabled="true" tabindex="-1"' : "" ?>>
                         Previous

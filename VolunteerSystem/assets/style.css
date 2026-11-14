@@ -161,3 +161,12 @@ footer {
     max-width: 100%;
   }
 }
+
+/* Let directory summaries and pagination fit even the narrowest phone viewport. */
+.directory-panel nav {
+  max-width: 100%;
+}
+.directory-panel .table-responsive:focus-visible {
+  outline: 2px solid #28634c;
+  outline-offset: -2px;
+}
