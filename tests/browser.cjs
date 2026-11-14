@@ -1,12 +1,68 @@
-require('fs').mkdirSync('screenshots',{recursive:true});
-const {chromium}=require('playwright');
-(async()=>{const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});const page=await browser.newPage({viewport:{width:1440,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));const base='http://127.0.0.1:8080/';
-await page.goto(base);await page.screenshot({path:'screenshots/01-registration.png',fullPage:true});
-await page.locator('button[type=submit]').click();if(await page.locator('#volunteer_name').evaluate(e=>e.validity.valid))throw Error('required validation');
-for(const [k,v] of Object.entries({volunteer_name:'Sarah Lim',ic_number:'920101-14-5678',contact_number:'012-3456789',email:'sarah.lim@example.com',available_date:'2026-11-22'}))await page.locator('#'+k).fill(v);
-await page.selectOption('#service_category','Environmental Care');await page.locator('button[type=submit]').click();await page.waitForURL('**/success.php');await page.screenshot({path:'screenshots/02-success.png',fullPage:true});
-await page.goto(base+'view.php');await page.screenshot({path:'screenshots/03-directory.png',fullPage:true});
-await page.getByRole('link',{name:'Edit',exact:true}).click();await page.locator('#volunteer_name').fill('Sarah Lim Updated');await page.locator('button[type=submit]').click();await page.waitForURL('**/view.php');if(!await page.getByText('Sarah Lim Updated',{exact:true}).count())throw Error('edit');
-await page.getByRole('link',{name:'Delete',exact:true}).click();await page.screenshot({path:'screenshots/04-delete.png',fullPage:true});await page.getByRole('button',{name:'Delete registration',exact:true}).click();await page.waitForURL('**/view.php');
-await page.setViewportSize({width:390,height:844});await page.goto(base);if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error('mobile overflow');await page.screenshot({path:'screenshots/05-mobile.png',fullPage:true});
-if(errors.length)throw Error(errors.join('\n'));console.log('PASS: browser required validation, registration, success details, edit, delete, 390px mobile layout, no JavaScript errors');await browser.close();})();
+require("fs").mkdirSync("screenshots", { recursive: true });
+const { chromium } = require("playwright");
+(async () => {
+  const browser = await chromium.launch({
+    executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+    headless: true,
+    args: ["--no-sandbox"],
+  });
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+  });
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  const base = process.env.BASE_URL || "http://127.0.0.1:8080/";
+  await page.goto(base);
+  if (!(await page.locator('.brand-logo').evaluate(image => image.complete && image.naturalWidth > 0)))
+    throw Error('brand logo did not load');
+  await page.screenshot({
+    path: "screenshots/01-registration.png",
+    fullPage: true,
+  });
+  await page.locator("button[type=submit]").click();
+  if (await page.locator("#volunteer_name").evaluate((e) => e.validity.valid))
+    throw Error("required validation");
+  for (const [k, v] of Object.entries({
+    volunteer_name: "Sarah Lim",
+    ic_number: "920101-14-5678",
+    contact_number: "012-3456789",
+    email: "sarah.lim@example.com",
+    available_date: "2026-11-22",
+  }))
+    await page.locator("#" + k).fill(v);
+  await page.selectOption("#service_category", "Environmental Care");
+  await page.locator("button[type=submit]").click();
+  await page.waitForURL("**/success.php");
+  await page.screenshot({ path: "screenshots/02-success.png", fullPage: true });
+  await page.goto(base + "view.php");
+  await page.screenshot({
+    path: "screenshots/03-directory.png",
+    fullPage: true,
+  });
+  await page.getByRole("link", { name: "Edit", exact: true }).click();
+  await page.locator("#volunteer_name").fill("Sarah Lim Updated");
+  await page.locator("button[type=submit]").click();
+  await page.waitForURL("**/view.php");
+  if (!(await page.getByText("Sarah Lim Updated", { exact: true }).count()))
+    throw Error("edit");
+  await page.getByRole("link", { name: "Delete", exact: true }).click();
+  await page.screenshot({ path: "screenshots/04-delete.png", fullPage: true });
+  await page
+    .getByRole("button", { name: "Delete registration", exact: true })
+    .click();
+  await page.waitForURL("**/view.php");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(base);
+  if (!(await page.locator('.brand-logo').evaluate(image => image.complete && image.naturalWidth > 0)))
+    throw Error('brand logo did not load');
+  if (
+    await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)
+  )
+    throw Error("mobile overflow");
+  await page.screenshot({ path: "screenshots/05-mobile.png", fullPage: true });
+  if (errors.length) throw Error(errors.join("\n"));
+  console.log(
+    "PASS: browser required validation, registration, success details, edit, delete, 390px mobile layout, no JavaScript errors",
+  );
+  await browser.close();
+})();

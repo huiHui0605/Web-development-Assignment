@@ -1,4 +1,4 @@
-# Kindred — Volunteer Registration Management System
+# The Heart community hub — Volunteer Registration Management System
 BTPR2113 Web Development, 2026 C. PHP 8.3, MySQL-compatible MariaDB 11.4, Bootstrap 5.3.3 (bundled locally).
 
 ## Run with Docker
@@ -29,3 +29,28 @@ The assignment requests a local demonstration, not a public deployment. Listing 
 Bootstrap 5.3.3, Copyright 2011–2024 The Bootstrap Authors, MIT license; see `VolunteerSystem/assets/bootstrap.LICENSE`.
 
 Optional browser regression: provide Node.js, Playwright and Chromium (default `/usr/bin/chromium`), then run `node tests/browser.cjs` against an empty local database. Screenshots are written to ignored `screenshots/`. It creates and removes a fictional Sarah Lim registration. No report files are committed.
+
+## Reading and explaining the code
+The PHP templates and custom CSS are expanded into readable blocks. `config.php`
+shares the brand name, page size, labels, length limits, validation and security
+helpers. `layout.php` shares the header, footer and registration/edit form.
+English comments explain the connection, prepared SQL, CSRF, CRUD and pagination.
+The bundled third-party Bootstrap distribution remains minified.
+
+The supplied logo is stored at `VolunteerSystem/images/brand/logo.png`.
+The shared header displays the original PNG on every page alongside the brand name.
+The existing community illustration remains part of the registration page.
+
+### Refactor verification
+Verified locally with PHP 8.3 and MariaDB 11.4 using a disposable database:
+- All eight PHP files pass syntax checking.
+- HTTP tests create 51 registrations and verify 50/1 pagination, ordering and page bounds.
+- Validation, CSRF rejection on create/edit/delete, edit persistence, HTML escaping,
+  delete confirmation and deletion pass; test records are removed.
+- Chromium tests pass registration, editing, deletion, required fields and a 390px viewport.
+
+The default Apache image build exceeded this test environment's Docker storage.
+Runtime checks used PHP's built-in server in a temporary Alpine container with PDO MySQL,
+connected to the repository's MariaDB image. The repository Docker files are unchanged.
+For browser testing, `CHROMIUM_PATH` may select another installed Chromium binary and
+`BASE_URL` may select another local server.

@@ -1,1 +1,163 @@
-body{background:#f5f7f2;color:#223d34;font-family:Arial,sans-serif}a{color:#28634c;text-underline-offset:4px}.brand{text-decoration:none;font-size:25px;font-weight:800;letter-spacing:-1px}.brand-sub{font-size:12px;font-weight:400;letter-spacing:0;color:#6d7f75}.brand-icon{display:inline-grid;place-items:center;background:#28634c;color:white;width:32px;height:32px;border-radius:10px;margin-right:8px}.eyebrow{font-size:11px;letter-spacing:2px;font-weight:700;color:#657b54}.display-4{font-family:Georgia,serif;font-size:49px;line-height:1.13;letter-spacing:-1.5px}em{color:#64814f}.lead{font-size:17px;line-height:1.7;color:#637167}.panel{background:white;padding:36px;border:1px solid #dfe6db;border-radius:16px;box-shadow:0 12px 35px #253b3210}.form-label{font-size:13px;font-weight:700}.form-control,.form-select{padding:12px;border-color:#d5ded4;background-color:#fcfdfb}.form-control:focus,.form-select:focus{border-color:#64814f;box-shadow:0 0 0 .2rem #64814f22}.btn-primary{--bs-btn-bg:#28634c;--bs-btn-border-color:#28634c;--bs-btn-hover-bg:#1e4e3b;--bs-btn-hover-border-color:#1e4e3b}.btn-outline-primary{--bs-btn-color:#28634c;--bs-btn-border-color:#28634c;--bs-btn-hover-bg:#28634c;--bs-btn-hover-border-color:#28634c}.privacy{background:#f1f5eb;border-radius:8px;color:#65735e;font-size:12px;line-height:1.6}.step{border:1px solid #ced9c5;border-radius:50%;height:34px;min-width:34px;display:grid;place-items:center;font-size:12px}footer{font-size:11px;color:#728171}.table th{font-size:11px;background:#f4f7f1;color:#64725b;text-transform:uppercase;white-space:nowrap}.table td,.table th{padding:17px 14px}.table td{font-size:13px}.page-link{color:#28634c}.active>.page-link{background:#28634c;border-color:#28634c}@media(max-width:767px){.panel{padding:24px}.display-4{font-size:40px}.brand-sub{display:none}footer{gap:20px}.container{padding-left:20px;padding-right:20px}}@media(max-width:767px){main>.row{--bs-gutter-x:1.5rem}form>.d-flex{flex-wrap:wrap;gap:12px}}
+/* Shared widths keep page templates free of repeated inline styles. */
+.panel-form {
+  max-width: 850px;
+}
+.panel-delete {
+  max-width: 650px;
+}
+.panel-success {
+  max-width: 750px;
+}
+
+body {
+  background: #f5f7f2;
+  color: #223d34;
+  font-family: Arial, sans-serif;
+}
+a {
+  color: #28634c;
+  text-underline-offset: 4px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+  max-width: 70%;
+}
+.brand-logo {
+  width: 60px;
+  height: 50px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #657b54;
+}
+.display-4 {
+  font-family: Georgia, serif;
+  font-size: 49px;
+  line-height: 1.13;
+  letter-spacing: -1.5px;
+}
+em {
+  color: #64814f;
+}
+.lead {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #637167;
+}
+.panel {
+  background: white;
+  padding: 36px;
+  border: 1px solid #dfe6db;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px #253b3210;
+}
+.form-label {
+  font-size: 13px;
+  font-weight: 700;
+}
+.form-control,
+.form-select {
+  padding: 12px;
+  border-color: #d5ded4;
+  background-color: #fcfdfb;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: #64814f;
+  box-shadow: 0 0 0 0.2rem #64814f22;
+}
+.btn-primary {
+  --bs-btn-bg: #28634c;
+  --bs-btn-border-color: #28634c;
+  --bs-btn-hover-bg: #1e4e3b;
+  --bs-btn-hover-border-color: #1e4e3b;
+}
+.btn-outline-primary {
+  --bs-btn-color: #28634c;
+  --bs-btn-border-color: #28634c;
+  --bs-btn-hover-bg: #28634c;
+  --bs-btn-hover-border-color: #28634c;
+}
+.privacy {
+  background: #f1f5eb;
+  border-radius: 8px;
+  color: #65735e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.step {
+  border: 1px solid #ced9c5;
+  border-radius: 50%;
+  height: 34px;
+  min-width: 34px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+}
+footer {
+  font-size: 11px;
+  color: #728171;
+}
+.table th {
+  font-size: 11px;
+  background: #f4f7f1;
+  color: #64725b;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.table td,
+.table th {
+  padding: 17px 14px;
+}
+.table td {
+  font-size: 13px;
+}
+.page-link {
+  color: #28634c;
+}
+.active > .page-link {
+  background: #28634c;
+  border-color: #28634c;
+}
+
+/* Keep the form and longer brand name readable on narrow screens. */
+@media (max-width: 767px) {
+  .panel {
+    padding: 24px;
+  }
+  .display-4 {
+    font-size: 40px;
+  }
+  footer {
+    gap: 20px;
+  }
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  main > .row {
+    --bs-gutter-x: 1.5rem;
+  }
+  form > .d-flex {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header nav {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .brand {
+    font-size: 20px;
+    max-width: 100%;
+  }
+}
